@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom border-warning">
+    <p>include</p>
+    <div class="container-fluid">
+    <a class="navbar-brand text-warning glow-text" href="{% url 'landing' %}">
+            <i class="bi bi-shield-fill"></i> ENIGMA
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% for item in menu_items %}
+                <p>cicle</p>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == item.url %}active{% endif %}" href="{{ item.url }}">
+                        {{ item.title|upper }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            
+            <div class="d-flex">
+                {% if user.is_authenticated %}
+                    <span class="navbar-text me-3 text-warning">Привет, {{ user.username }}!</span>
+                    <a href="" class="btn btn-outline-warning">ВЫЙТИ</a>
+                {% else %}
+                    <a href="" class="btn btn-outline-warning me-2">ВОЙТИ</a>
+                    <a href="" class="btn btn-warning">ПОДАТЬ ЗАЯВКУ НА ВСТУПЛЕНИЕ</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

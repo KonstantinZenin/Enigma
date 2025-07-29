@@ -1,0 +1,126 @@
+/* Основные стили */
+body {
+    background: #0a0a0a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+}
+
+/* Карточки */
+.card {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: #ffd700;
+}
+
+/* Кнопки */
+.btn-warning {
+    background-color: #ffd700;
+    border-color: #ffd700;
+    color: #000;
+}
+
+.btn-outline-warning {
+    color: #ffd700;
+    border-color: #ffd700;
+}
+
+.btn-outline-warning:hover {
+    background-color: #ffd700;
+    color: #000;
+}
+
+/* Навигация */
+.nav-link {
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: #ffd700 !important;
+}
+
+.active.nav-link {
+    color: #ffd700 !important;
+}
+
+/* Тёмная тема */
+.dark-theme {
+    background: #0a0a0a;
+    color: #e0e0e0;
+}
+
+/* Анимированные искры */
+.sparks-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.spark {
+    position: absolute;
+    background: radial-gradient(circle, rgba(255,215,0,0.8) 20%, transparent 70%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    animation: sparkle 2s infinite;
+    opacity: 0;
+}
+
+@keyframes sparkle {
+    0% {
+        transform: translateY(0) scale(0);
+        opacity: 0;
+    }
+    20% {
+        transform: translateY(-20px) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-80px) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Генерация случайного положения искр */
+.spark:nth-child(1) { left: 5%; animation-delay: 0.5s; }
+.spark:nth-child(2) { left: 30%; animation-delay: 1.2s; }
+.spark:nth-child(3) { left: 70%; animation-delay: 0.8s; }
+.spark:nth-child(4) { left: 45%; animation-delay: 2.1s; }
+.spark:nth-child(5) { left: 85%; animation-delay: 1.5s; }
+
+
+/* Добавьте столько искр, сколько нужно, меняя left и animation-delay */
+
+/* Дополнительные эффекты для мрачной атмосферы */
+.dark-theme::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(0deg, rgba(10,10,10,1) 10%, transparent 50%),
+        repeating-linear-gradient(
+            45deg,
+            rgba(20,20,20,0.1) 0px,
+            rgba(20,20,20,0.1) 2px,
+            transparent 2px,
+            transparent 4px
+        );
+    pointer-events: none;
+    z-index: -2;
+}

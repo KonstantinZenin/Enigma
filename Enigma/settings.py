@@ -41,9 +41,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "core",
-    "users",
+    'core',
+    'users',
+    'characters',
 ]
+
+# URL для аватара по умолчанию
+DEFAULT_AVATAR_URL = '/static/images/default_avatar.png'
+
+# Указываем кастомную модель пользователя
+AUTH_USER_MODEL = 'users.GuildMember'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -110,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'europe/moscow'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 

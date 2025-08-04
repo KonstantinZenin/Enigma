@@ -4,6 +4,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    position: relative; /* Для абсолютного позиционирования углей */
 }
 
 .container {
@@ -52,6 +53,56 @@ body {
     color: #ffd700 !important;
 }
 
+/* Усиленные стили для прилипающего меню */
+nav.navbar {
+    position: sticky !important;
+    position: -webkit-sticky !important; /* Для Safari */
+    top: 0 !important;
+    z-index: 1000 !important;
+    will-change: transform;
+}
+
+/* Эффект тлеющих углей (внизу страницы) */
+.embers-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    pointer-events: none;
+    z-index: 998;
+    background: radial-gradient(ellipse at center, 
+        rgba(255, 120, 0, 0.3) 0%, 
+        rgba(255, 60, 0, 0.2) 30%,
+        transparent 70%);
+    opacity: 0.5;
+    animation: ember-glow 3s infinite alternate;
+}
+
+@keyframes ember-glow {
+    0% {
+        opacity: 0.4;
+        background: radial-gradient(ellipse at center, 
+            rgba(255, 120, 0, 0.3) 0%, 
+            rgba(255, 60, 0, 0.2) 30%,
+            transparent 70%);
+    }
+    50% {
+        opacity: 0.7;
+        background: radial-gradient(ellipse at center, 
+            rgba(255, 140, 0, 0.4) 0%, 
+            rgba(255, 80, 0, 0.3) 30%,
+            transparent 70%);
+    }
+    100% {
+        opacity: 0.5;
+        background: radial-gradient(ellipse at center, 
+            rgba(255, 100, 0, 0.35) 0%, 
+            rgba(255, 50, 0, 0.25) 30%,
+            transparent 70%);
+    }
+}
+
 /* Тёмная тема */
 .dark-theme {
     background: #0a0a0a;
@@ -66,14 +117,14 @@ body {
     width: 100%;
     height: 100px;
     pointer-events: none;
-    z-index: -1;
+    z-index: 999; /* Поверх контента */
 }
 
 .spark {
     position: absolute;
-    background: radial-gradient(circle, rgba(255,215,0,0.8) 20%, transparent 70%);
-    width: 4px;
-    height: 4px;
+    background: radial-gradient(circle, rgba(255,215,0,1) 30%, transparent 80%);
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     animation: sparkle 2s infinite;
     opacity: 0;
@@ -100,9 +151,16 @@ body {
 .spark:nth-child(3) { left: 70%; animation-delay: 0.8s; }
 .spark:nth-child(4) { left: 45%; animation-delay: 2.1s; }
 .spark:nth-child(5) { left: 85%; animation-delay: 1.5s; }
-
-
-/* Добавьте столько искр, сколько нужно, меняя left и animation-delay */
+.spark:nth-child(6) { left: 15%; animation-delay: 0.3s; }
+.spark:nth-child(7) { left: 55%; animation-delay: 1.7s; }
+.spark:nth-child(8) { left: 25%; animation-delay: 2.4s; }
+.spark:nth-child(9) { left: 95%; animation-delay: 0.9s; }
+.spark:nth-child(10) { left: 65%; animation-delay: 1.8s; }
+.spark:nth-child(11) { left: 10%; animation-delay: 0.6s; }
+.spark:nth-child(12) { left: 40%; animation-delay: 1.9s; }
+.spark:nth-child(13) { left: 75%; animation-delay: 2.0s; }
+.spark:nth-child(14) { left: 50%; animation-delay: 0.4s; }
+.spark:nth-child(15) { left: 90%; animation-delay: 1.0s; }
 
 /* Дополнительные эффекты для мрачной атмосферы */
 .dark-theme::after {

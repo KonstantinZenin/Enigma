@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">{{ character.name }}</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <div class="character-avatar mb-3">
+                        <!-- Заглушка для аватара персонажа -->
+                        <div class="bg-light border rounded-circle d-flex align-items-center justify-content-center" style="width: 200px; height: 200px; margin: 0 auto;">
+                            <i class="bi bi-person-circle" style="font-size: 5rem;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="character-info">
+                        <p><strong>{% trans "Раса:" %}</strong> {{ character.race }}</p>
+                        {% if character.character_class %}
+                            <p><strong>{% trans "Класс:" %}</strong> {{ character.character_class }}</p>
+                        {% endif %}
+                        {% if character.role %}
+                            <p><strong>{% trans "Роль:" %}</strong> {{ character.get_role_display }}</p>
+                        {% endif %}
+                        <p><strong>{% trans "Сервер:" %}</strong> {{ character.server|default:"Не указан" }}</p>
+                        <p><strong>{% trans "Статус:" %}</strong> 
+                            <span class="badge bg-{% if character.status == 'active' %}success{% elif character.status == 'banned' %}danger{% else %}warning{% endif %}">
+                                {{ character.get_status_display }}
+                            </span>
+                        </p>
+                        <p><strong>{% trans "Создан:" %}</strong> {{ character.created_at|date:"d.m.Y H:i" }}</p>
+                        <p><strong>{% trans "Обновлен:" %}</strong> {{ character.updated_at|date:"d.m.Y H:i" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            {% if request.user.guildmember == character.user %}
+                <a href="{% url 'characters:edit' character.pk %}" class="btn btn-warning">
+                    <i class="bi bi-pencil-square"></i> {% trans "Редактировать" %}
+                </a>
+            {% endif %}
+            <a href="{% url 'characters:list' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> {% trans "Назад к списку" %}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

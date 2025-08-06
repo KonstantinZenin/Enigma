@@ -32,7 +32,7 @@ class GuildMember(AbstractUser):
     # адрес электронной почты
     email = models.EmailField(verbose_name="Электронная почта", unique=True)
     # аватар пользователя
-    avatar = models.ImageField(upload_to='avatars/', verbose_name="Аватар", blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars/%Y/%m/%d/', verbose_name="Аватар", blank=True, null=True)
     # телеграм-никнейм
     telegram_username = models.CharField(max_length=150, verbose_name="Телеграм-никнейм", unique=True)
     # vk-id 
@@ -65,3 +65,10 @@ class GuildMember(AbstractUser):
     def get_avatar(self):
         from django.conf import settings
         return self.avatar if self.avatar else settings.DEFAULT_AVATAR_URL
+
+    @property
+    def avatar_url(self):
+        from django.conf import settings
+        if self.avatar and hasattr(self.avatar, 'url'):
+            return self.avatar.url
+        return settings.DEFAULT_AVATAR_URL

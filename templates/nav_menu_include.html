@@ -9,6 +9,17 @@
 
     <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- Новый пункт меню с выпадающим списком -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="chroniclesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    ХРОНИКИ ЭНИГМЫ
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="chroniclesDropdown">
+                    <li><a class="dropdown-item" href="{% url 'characters:list' %}">Сказания</a></li>
+                    <li><a class="dropdown-item" href="{% url 'landing' %}">Круг избранных (в разработке)</a></li>
+                </ul>
+            </li>
+            
             {% for item in menu_items %}
             <li class="nav-item">
                 <a class="nav-link {% if request.path == item.url %}active{% endif %}" href="{{ item.url }}">
@@ -21,10 +32,14 @@
         <div class="d-flex">
             {% if user.is_authenticated %}
                 <span class="navbar-text me-3 text-warning">Привет, {{ user.username }}!</span>
-                <a href="" class="btn btn-outline-warning">ВЫЙТИ</a>
+                {% if user.is_staff %}
+                <a href="/admin/" class="btn btn-outline-warning me-2">АДМИНКА</a>
+                {% endif %}
+                <a href="{% url 'users:profile' %}" class="btn btn-outline-warning me-2">ПРОФИЛЬ</a>
+                <a href="{% url 'users:logout' %}" class="btn btn-outline-warning">ВЫЙТИ</a>
             {% else %}
-                <a href="" class="btn btn-outline-warning me-2">ВОЙТИ</a>
-                <a href="" class="btn btn-warning">ПОДАТЬ ЗАЯВКУ НА ВСТУПЛЕНИЕ</a>
+                <a href="{% url 'users:login' %}" class="btn btn-outline-warning me-2">ВОЙТИ</a>
+                <a href="{% url 'users:register' %}" class="btn btn-warning">ПОДАТЬ ЗАЯВКУ НА ВСТУПЛЕНИЕ</a>
             {% endif %}
         </div>
     </div>

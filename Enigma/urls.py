@@ -25,6 +25,7 @@ urlpatterns = [
     path("", landing, name="landing"),
     path('users/', include('users.urls')),
     path('characters/', include('characters.urls')),
+    path('events/', include('event_calendar.urls')),
 ]
 
 if settings.DEBUG:

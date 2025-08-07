@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block extra_head %}
+{{ block.super }}
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/main.min.css" rel="stylesheet" />
+<link href="{% static 'css/fullcalendar.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{% trans "Календарь событий" %}</h1>
+    <div id="calendar"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/locales/ru.global.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var eventsUrl = '{% url "event_calendar:event_json" %}';
+        console.log('Events URL:', eventsUrl);
+        
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'ru',
+            timeZone: 'Europe/Moscow',
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,dayGridWeek,dayGridDay'
+            },
+            events: {
+                url: eventsUrl,
+                method: 'GET',
+                failure: function() {
+                    console.error('Ошибка загрузки событий');
+                    alert('Не удалось загрузить события. Пожалуйста, попробуйте позже.');
+                }
+            },
+            eventClick: function(info) {
+                window.location.href = "{% url 'event_calendar:event_detail' 0 %}".replace('0', info.event.id);
+            },
+            dateClick: function(info) {
+                window.location.href = "{% url 'event_calendar:event_create' %}?date=" + info.dateStr;
+            }
+        });
+        
+        calendar.render();
+    });
+</script>
+{% endblock %}

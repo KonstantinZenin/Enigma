@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+    <h1>{% trans "Календарь событий" %}</h1>
+    <a href="{% url 'event_calendar:event_create' %}" class="btn btn-primary mb-3">{% trans "Создать событие" %}</a>
+    
+    <div class="list-group">
+        {% for event in events %}
+            <a href="{% url 'event_calendar:event_detail' event.pk %}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ event.title }}</h5>
+                    <small>
+                        {{ event.start_time|date:"d.m.Y H:i" }} - {{ event.end_time|date:"d.m.Y H:i" }}
+                        {% if event.is_official %}<span class="badge bg-success">{% trans "Официальное" %}</span>{% endif %}
+                    </small>
+                </div>
+                <p class="mb-1">{{ event.description|truncatechars:100 }}</p>
+                <small>{% trans "Создатель:" %} {{ event.creator.username }}</small>
+            </a>
+        {% empty %}
+            <div class="alert alert-info">{% trans "Событий пока нет" %}</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

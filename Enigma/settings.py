@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'core',
     'users',
     'characters',
+    'event_calendar',
 ]
 
 # URL для аватара по умолчанию

@@ -1,0 +1,38 @@
+services:
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --no-input &&
+             daphne -b 0.0.0.0 -p 8000 Enigma.asgi:application"
+    volumes:
+      - .:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=0
+      - SECRET_KEY=ваш_ключ_из_.env
+      - DATABASE_URL=postgres://enigma:password@db:5432/enigma
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: enigma
+      POSTGRES_USER: enigma
+      POSTGRES_PASSWORD: password
+
+  redis:
+    image: "redis:7"
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:

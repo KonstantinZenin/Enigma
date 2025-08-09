@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">{% trans "Сказания Энигмы" %}</h2>
+    <p class="lead text-center">{% trans "Хроники и подвиги наших героев" %}</p>
+    
+    <div class="mb-4">
+        <a href="{% url 'characters:create' %}" class="btn btn-warning">
+            <i class="bi bi-plus-circle"></i> {% trans "Призвать нового героя" %}
+        </a>
+    </div>
+    
+    {% include 'characters/_character_list.html' with characters=characters %}
+</div>
+{% endblock %}

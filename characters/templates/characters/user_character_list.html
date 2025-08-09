@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">{% trans "Персонажи игрока" %} {{ user.username }}</h2>
+    
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="btn-group">
+            <button class="btn btn-outline-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {% trans "Статус: Все" %}
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">{% trans "Все" %}</a></li>
+                <li><a class="dropdown-item" href="#">{% trans "Активные" %}</a></li>
+                <li><a class="dropdown-item" href="#">{% trans "Архивные" %}</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    {% include 'characters/_character_list.html' with characters=characters %}
+</div>
+{% endblock %}

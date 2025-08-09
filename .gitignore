@@ -4,3 +4,13 @@ db.sqlite3
 *__pycache__
 .env
 notes/images/*
+DEVELOPMENT_PLAN.md
+PROJECT_SPEC.md
+/media/
+/avatars/
+
+# Environment files
+.env
+*.env
+!.env.dev
+/staticfiles/

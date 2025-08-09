@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Профиль участника гильдии</h2>
+    <div class="d-flex justify-content-center">
+        <div class="w-100">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ user.avatar_url }}" alt="Аватар" class="img-fluid rounded-circle" width="150" height="150">
+                </div>
+                <div class="col-md-8">
+                    <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+                    <p><strong>Имя:</strong> {{ user.name }}</p>
+                    <p><strong>Фамилия:</strong> {{ user.surname }}</p>
+                    <p><strong>Отчество:</strong> {{ user.patronymic }}</p>
+                    <p><strong>Telegram:</strong> {{ user.telegram_username }}</p>
+                    <a href="{% url 'users:edit_profile' %}" class="btn btn-outline-warning mt-3">Редактировать профиль</a>
+                </div>
+            </div>
+            
+            <!-- Раздел "Мои персонажи" -->
+            <div class="mt-5">
+                <h3>Мои персонажи</h3>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="btn-group">
+                        <button class="btn btn-outline-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Статус: Все
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Все</a></li>
+                            <li><a class="dropdown-item" href="#">Активные</a></li>
+                            <li><a class="dropdown-item" href="#">Архивные</a></li>
+                        </ul>
+                    </div>
+                    <a href="{% url 'characters:create' %}" class="btn btn-warning">
+                        <i class="bi bi-plus-circle"></i> Призвать нового героя
+                    </a>
+                </div>
+                
+                {% if characters %}
+                    <div class="character-list">
+                        {% for character in characters %}
+                            {% include 'characters/_character_card.html' with character=character %}
+                        {% endfor %}
+                    </div>
+                    {% include 'characters/_pagination.html' with page_obj=characters %}
+                {% else %}
+                    <div class="alert alert-info">
+                        У вас пока нет персонажей. <a href="{% url 'characters:create' %}">Создать первого персонажа</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

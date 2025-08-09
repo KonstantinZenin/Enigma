@@ -1,0 +1,20 @@
+<div class="character-card card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">{{ character.name }}</h5>
+    <div class="character-info">
+      <span class="badge bg-primary">{{ character.race }}</span>
+      {% if character.character_class %}
+        <span class="badge bg-secondary">{{ character.character_class }}</span>
+      {% endif %}
+      {% if character.role %}
+        <span class="badge bg-info">{{ character.get_role_display }}</span>
+      {% endif %}
+      <span class="badge bg-{% if character.status == 'active' %}success{% elif character.status == 'banned' %}danger{% else %}warning{% endif %}">
+        {{ character.get_status_display }}
+      </span>
+    </div>
+    {% if character.server %}
+      <p class="card-text"><small class="text-muted">{{ character.server }}</small></p>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_head %}
+<style>
+    .hero-section {
+       background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                  url('{% static "images/bg.jpg" %}');
+      background-size: cover;
+      height: 70vh;
+      display: flex;
+      align-items: center;
+    }
+    .guild-card:hover {
+      transform: translateY(-5px);
+      transition: all 0.3s ease;
+    }
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+  <section class="hero-section text-center text-white">
+    <div class="container">
+      <h1 class="display-4 mb-4">Добро пожаловать в гильдию Enigma!</h1>
+      <p class="lead">Самые эпичные рейды и лучшее сообщество</p>
+    </div>
+  </section>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4 my-5">
+    <div class="col">
+      <div class="card guild-card h-100 bg-dark text-light">
+        <div class="card-body">
+          <h5 class="card-title text-warning"><i class="bi bi-calendar-event"></i> Ближайшие события</h5>
+          <ul class="list-unstyled">
+            <li>Сегодня в 20:00 - Рейд на Наксрамас</li>
+            <li>Завтра в 19:30 - PvP турнир</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col">
+      <div class="card guild-card h-100 bg-dark text-light">
+        <div class="card-body">
+          <h5 class="card-title text-warning"><i class="bi bi-newspaper"></i> Последние новости</h5>
+          <p>Обновление рейдового лога от 01.01.2024</p>
+          <p>Новые правила гильдии</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col">
+      <div class="card guild-card h-100 bg-dark text-light">
+        <div class="card-body">
+          <h5 class="card-title text-warning"><i class="bi bi-trophy"></i> Наши достижения</h5>
+          <ul class="list-unstyled">
+            <li>Первые на сервере в Icecrown Citadel(пример)</li>
+            <li>Топ-3 в PvP рейтинге(пример)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

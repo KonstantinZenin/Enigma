@@ -1,0 +1,13 @@
+{% load i18n %}
+{% if characters %}
+<div class="character-list">
+  {% for character in characters %}
+    {% include 'characters/_character_card.html' with character=character %}
+  {% endfor %}
+</div>
+{% include 'characters/_pagination.html' with page_obj=page_obj %}
+{% else %}
+<div class="alert alert-info">
+  {% trans "Персонажи не найдены" %}
+</div>
+{% endif %}

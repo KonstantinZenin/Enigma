@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'users',
     'characters',
     'event_calendar',
+    'channels',
+    'communications',
 ]
 
 # URL для аватара по умолчанию
@@ -79,6 +81,18 @@ TEMPLATES = [
         },
     },
 ]
+
+# Настройка Channels
+ASGI_APPLICATION = 'Enigma.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}
 
 WSGI_APPLICATION = 'Enigma.wsgi.application'
 

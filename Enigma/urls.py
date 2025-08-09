@@ -26,6 +26,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('characters/', include('characters.urls')),
     path('events/', include('event_calendar.urls')),
+    path('chat/', include('communications.urls')),  # Добавляем URL чата
 ]
 
 if settings.DEBUG:

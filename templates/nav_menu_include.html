@@ -19,7 +19,12 @@
                     <li><a class="dropdown-item" href="{% url 'landing' %}">Круг избранных (в разработке)</a></li>
                 </ul>
             </li>
-            
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'event_calendar:event_calendar' %}">КАЛЕНДАРЬ</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'communications:chat' %}">ЧАТ</a>
+            </li>
             {% for item in menu_items %}
             <li class="nav-item">
                 <a class="nav-link {% if request.path == item.url %}active{% endif %}" href="{{ item.url }}">

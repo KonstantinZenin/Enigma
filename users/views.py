@@ -36,10 +36,12 @@ def login_view(request):
 def profile_view(request):
     from characters.models import GameCharacter
     from django.core.paginator import Paginator
+    # Игнорировать предупреждение Pylint - GameCharacter имеет менеджер objects
+    # pylint: disable=no-member
     
     # Получаем персонажей текущего пользователя
     character_list = GameCharacter.objects.filter(
-        user=request.user.guildmember
+        user=request.user
     ).order_by('-created_at')
     
     # Пагинация

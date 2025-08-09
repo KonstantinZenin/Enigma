@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div id="chat-messages" class="mb-3" style="height: 500px; overflow-y: scroll; border: 1px solid #ccc; padding: 15px; background-color: #f8f9fa;">
+                {% for message in messages %}
+                    <div class="mb-2 p-2 rounded" style="background-color: #fff; border-left: 3px solid #007bff;">
+                        <div>
+                            <strong>{{ message.user.username }}</strong>
+                            <small class="text-muted float-right">{{ message.timestamp }}</small>
+                        </div>
+                        <div>{{ message.content }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="input-group">
+                <input type="text" id="chat-message-input" class="form-control" placeholder="Введите сообщение...">
+                <button id="chat-message-submit" class="btn btn-primary">Отправить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    const chatSocket = new WebSocket(
+        protocol + window.location.host + '/ws/chat/'
+    );
+
+    chatSocket.onopen = function(e) {
+        console.log("WebSocket connection established");
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error("WebSocket connection closed unexpectedly");
+    };
+
+    chatSocket.onerror = function(error) {
+        console.error("WebSocket error:", error);
+    };
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const messagesContainer = document.querySelector('#chat-messages');
+        
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('mb-2', 'p-2', 'rounded');
+        messageElement.style.backgroundColor = '#fff';
+        messageElement.style.borderLeft = '3px solid #007bff';
+        
+        messageElement.innerHTML = `
+            <div>
+                <strong>${data.username}</strong>
+                <small class="text-muted float-right">${data.timestamp}</small>
+            </div>
+            <div>${data.message}</div>
+        `;
+        
+        messagesContainer.appendChild(messageElement);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    };
+
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function(e) {
+        if (e.key === 'Enter') {
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        const messageInput = document.querySelector('#chat-message-input');
+        const message = messageInput.value.trim();
+        
+        if (message) {
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInput.value = '';
+        }
+    };
+</script>
+{% endblock %}

@@ -8,3 +8,9 @@ DEVELOPMENT_PLAN.md
 PROJECT_SPEC.md
 /media/
 /avatars/
+
+# Environment files
+.env
+*.env
+!.env.dev
+/staticfiles/

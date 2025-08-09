@@ -13,3 +13,4 @@ PROJECT_SPEC.md
 .env
 *.env
 !.env.dev
+/staticfiles/

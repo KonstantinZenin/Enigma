@@ -1,74 +1,33 @@
-from os import name
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
-
-class Role(models.Model):
-    """
-    Модель роли пользователя в гильдии
-    """
-    name = models.CharField(max_length=50, unique=True, verbose_name="Название роли")
-    is_officer = models.BooleanField(default=False, verbose_name="Офицер")
-    is_leader = models.BooleanField(default=False, verbose_name="Глава гильдии")
-
-    def __str__(self):
-        return str(self.name)
-
+from django.core.validators import FileExtensionValidator
+import uuid
 
 class GuildMember(AbstractUser):
-    """
-    Расширенная модель пользователя для хранения информации о членах гильдии.
-    """
-    # имя пользователя
-    name = models.CharField(max_length=150, verbose_name="Имя пользователя")
-    # фамилия пользователя
-    surname = models.CharField(max_length=150, verbose_name="Фамилия пользователя")
-    # отчество пользователя
-    patronymic = models.CharField(max_length=150, verbose_name="Отчество пользователя", blank=True, null=True)
-    # дата рождения
-    birth_date = models.DateField(verbose_name="Дата рождения", blank=True, null=True)
-    # номер телефона
-    phone_number = models.CharField(max_length=15, verbose_name="Номер телефона", blank=True, null=True)
-    # адрес электронной почты
-    email = models.EmailField(verbose_name="Электронная почта", unique=True)
-    # аватар пользователя
-    avatar = models.ImageField(upload_to='avatars/%Y/%m/%d/', verbose_name="Аватар", blank=True, null=True)
-    # телеграм-никнейм
-    telegram_username = models.CharField(max_length=150, verbose_name="Телеграм-никнейм", unique=True)
-    # vk-id 
-    vk_id = models.CharField(max_length=150, verbose_name="VK ID", unique=True, blank=True, null=True)
-    # адрес
-    address = models.CharField(max_length=255, verbose_name="Адрес", blank=True, null=True)
-    # дата регистрации
-    date_joined = models.DateTimeField(auto_now_add=True, verbose_name="Дата регистрации")
-    # роль в гильдии
-    role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Роль в гильдии")
-
-    # Переопределение полей для разрешения конфликтов
-    groups = models.ManyToManyField(
-        'auth.Group',
-        verbose_name='groups',
-        blank=True,
-        help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',
-        related_name="guild_member_groups",
-        related_query_name="guild_member",
+    name = models.CharField(max_length=30, blank=True, null=True)
+    surname = models.CharField(max_length=30, blank=True, null=True)
+    patronymic = models.CharField(max_length=30, blank=True, null=True)
+    birth_date = models.DateField(null=True, blank=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    avatar = models.ImageField(
+        upload_to='avatars/',
+        default='default_avatar.png',
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])]
     )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        verbose_name='user permissions',
-        blank=True,
-        help_text='Specific permissions for this user.',
-        related_name="guild_member_permissions",
-        related_query_name="guild_member",
-    )
+    telegram_username = models.CharField(max_length=32, blank=True, null=True)
+    vk_id = models.CharField(max_length=50, blank=True, null=True)
+    address = models.TextField(max_length=255, blank=True, null=True)
+    bio = models.TextField(max_length=500, blank=True)
+    
+    def __str__(self):
+        return str(self.username)
 
-    def get_avatar(self):
-        from django.conf import settings
-        return self.avatar if self.avatar else settings.DEFAULT_AVATAR_URL
-
-    @property
-    def avatar_url(self):
-        from django.conf import settings
-        if self.avatar and hasattr(self.avatar, 'url'):
-            return self.avatar.url
-        return settings.DEFAULT_AVATAR_URL
+class InviteCode(models.Model):
+    code = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    creator = models.ForeignKey(GuildMember, on_delete=models.CASCADE, related_name='created_invites')
+    used_by = models.ForeignKey(GuildMember, on_delete=models.SET_NULL, null=True, blank=True, related_name='used_invite')
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return str(self.code)

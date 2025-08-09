@@ -44,7 +44,7 @@
                 <a href="{% url 'users:logout' %}" class="btn btn-outline-warning">ВЫЙТИ</a>
             {% else %}
                 <a href="{% url 'users:login' %}" class="btn btn-outline-warning me-2">ВОЙТИ</a>
-                <a href="{% url 'users:register' %}" class="btn btn-warning">ПОДАТЬ ЗАЯВКУ НА ВСТУПЛЕНИЕ</a>
+                <a href="{% url 'users:invite_form' %}" class="btn btn-warning">ПОДАТЬ ЗАЯВКУ НА ВСТУПЛЕНИЕ</a>
             {% endif %}
         </div>
     </div>

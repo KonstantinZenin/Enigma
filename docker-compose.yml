@@ -11,11 +11,8 @@ services:
       - media_volume:/app/media
     ports:
       - "8000:8000"
-    environment:
-      - DEBUG=0
-      - SECRET_KEY=ваш_ключ_из_.env
-      - DATABASE_URL=postgres://enigma:password@db:5432/enigma
-      - REDIS_URL=redis://redis:6379/0
+    env_file:
+      - .env.dev
     depends_on:
       - db
       - redis
